@@ -23,8 +23,15 @@ export default defineConfig(({ command }) => {
         plugins: [isBuild && multiInput()],
       },
     },
+    server: {
+      watch: {
+        // To prevent circular dev server reload.
+        // Add auto-generated files.
+        ignored: ['**/*/schema.gql'],
+      },
+    },
     test: {
-      include: ['**/*.{spec,test,e2e-spec}.ts'],
+      include: ['**/*.{spec,test,e2e-spec}.{js,mjs,cjs,ts}'],
     },
     optimizeDeps: {
       // To prevent error:
@@ -45,6 +52,13 @@ export default defineConfig(({ command }) => {
         // 'class-validator',
         'class-transformer/storage',
         '@fastify/view',
+        // GraphQL dependencies.
+        '@apollo/subgraph',
+        'ts-morph',
+        'apollo-server-express',
+        '@apollo/gateway',
+        'fsevents',
+        'point-of-view',
       ],
     },
     plugins: [

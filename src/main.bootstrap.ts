@@ -2,12 +2,13 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import {
   FastifyAdapter,
-  type NestFastifyApplication,
+  NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { appConfig } from './app.config';
 import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
+import type { INestApplication } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -30,9 +31,11 @@ async function bootstrap() {
   return app;
 }
 
-async function start(app: NestFastifyApplication) {
+async function start(app: INestApplication) {
   await app.listen(+appConfig.APP_PORT, appConfig.APP_HOST);
-  Logger.log(`OpenApi on: ${await app.getUrl()}/api`, 'Bootstrap');
+  const url = await app.getUrl();
+  Logger.log(`OpenApi on: ${url}/api`, 'Bootstrap');
+  Logger.log(`GraphQL playground on: ${url}/graphql`, 'Bootstrap');
 }
 
 export { bootstrap, start };

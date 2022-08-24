@@ -1,7 +1,6 @@
-import type { NestApplication } from '@nestjs/core';
-import type { NestFastifyApplication } from '@nestjs/platform-fastify';
 import type { Plugin, ViteDevServer } from 'vite';
 import { exit } from 'process';
+import type { INestApplication } from '@nestjs/common';
 
 interface Options {
   /**
@@ -30,7 +29,7 @@ function VitePluginNest(options: Options = {}): Plugin {
   }
 
   const store: {
-    app: NestApplication | NestFastifyApplication | null;
+    app: INestApplication | null;
     isLoading: boolean;
   } = {
     app: null,
@@ -77,7 +76,6 @@ function VitePluginNest(options: Options = {}): Plugin {
   return {
     name: 'vite-plugin-nestjs',
     apply(_, { command, mode }) {
-      // apply only on serve but not test mode
       return command === 'serve' && mode !== 'test';
     },
     config: () => ({
