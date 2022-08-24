@@ -7,7 +7,7 @@ Inspired by [vite-plugin-node](https://github.com/axe-me/vite-plugin-node)
 I haven't tested it, but I think that if make small changes it will work with @nestjs/platform-express too...
 
 <strong style="color: orange">WARNING:</strong>
-[apollo-server-fastify](https://github.com/apollographql/apollo-server/tree/main/packages/apollo-server-fastify) for the moment supports Fastify v3 only. And [@nestjs/platform-fastify](https://www.npmjs.com/package/@nestjs/platform-fastify) v9 included Fastify v.4. So, to make it all work together, use NestJS v.8 and fastify plugins for v3 and get a ton of warnings about peer dependencies mismatch.
+[apollo-server-fastify](https://github.com/apollographql/apollo-server/tree/main/packages/apollo-server-fastify) for the moment supports Fastify v3 only. And [@nestjs/platform-fastify](https://www.npmjs.com/package/@nestjs/platform-fastify) v9 included Fastify v.4. So, to make it all work together, use NestJS v.8 and fastify plugins for v3 and get a ton of warnings about peer dependencies mismatch or depraceted plugins.
 
 ## Included
 
