@@ -1,5 +1,5 @@
 {
-  "name": "nest-fastify-swagger-vite",
+  "name": "nest-fastify-graphql-vite",
   "version": "0.0.1",
   "description": "NestJS Fastity Vite Starter",
   "author": "Vladimir Belyj",
@@ -16,7 +16,8 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/main.mjs",
+    "start:prod:cjs": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "vitest --dir ./src",
     "test:cov": "vitest --coverage",

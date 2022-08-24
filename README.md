@@ -1,73 +1,154 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# NestJS Fastify GraphQL Vite Starter
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Experimental [Nest](https://github.com/nestjs/nest) Fastify Vite starter with MongoDB, GraphQL, Swagger setup.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Inspired by [vite-plugin-node](https://github.com/axe-me/vite-plugin-node) 
 
-## Description
+I haven't tested it, but I think that if make small changes it will work with @nestjs/platform-express too...
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+<strong style="color: orange">WARNING:</strong>
+[apollo-server-fastify](https://github.com/apollographql/apollo-server/tree/main/packages/apollo-server-fastify) for the moment supports Fastify v3 only. And [@nestjs/platform-fastify](https://www.npmjs.com/package/@nestjs/platform-fastify) v9 included Fastify v.4. So, to make it all work together, use NestJS v.8 and fastify plugins for v3 and get a ton of warnings about peer dependencies mismatch.
+
+## Included
+
+* [Vite](https://vitejs.dev/) - development server and ESM or CommonJS build for production
+* [Vitest](https://vitest.dev/) - unit and e2e tests
+* [Fastify](https://docs.nestjs.com/techniques/performance) - NestJS Platform Fastify
+* [GraphQL](https://docs.nestjs.com/graphql/quick-start) - Code first approach with Apollo driver 
+* [OpenAPI](https://docs.nestjs.com/openapi/introduction) - Swagger setup for REST API
 
 ## Installation
 
+1. Clone the repo
+2. Replace MONGO_CONNECTION_URI in .env.example to real connection uri
+3. Rename or copy .env.example to .env
+
 ```bash
-$ npm install
+$ pnpm i
 ```
 
-## Running the app
+## Vite
+
+### Development
+
+```bash
+$ pnpm dev
+```
+
+### Build and running the app
+
+#### ESM
+
+```bash
+# build
+$ pnpm build
+
+# start the app
+$ pnpm start:prod
+# or
+$ node dist/main.mjs
+```
+
+<span style="color: orange">WARNING:</span> When build in ESM mode, there may be problems with named imports from CommonJS npm packages at the launching stage, for example mongoose.
+
+```javascript
+import { Types } from 'mongoose';
+
+const Id = new Types.ObjectId();
+```
+```bash
+$ pnpm build
+# build OK
+
+$ pnpm start:prod
+# ERROR
+import { Types } from 'mongoose';
+         ^^^^^
+SyntaxError: Named export 'Types' not found. The requested module 'mongoose' is a CommonJS module, which may not support all module.exports as named exports.
+CommonJS modules can always be imported via the default export, for example using:
+
+import pkg from 'mongoose';
+const { Types } = pkg;
+```
+#### Solution 1
+```javascript
+// If you need some executable functions at runtime
+import mongoose from 'mongoose';
+
+const Id = new mongoose.Types.ObjectId();
+// or
+const { Types } = mongoose
+const Id = new Types.ObjectId();
+
+// If you only need a type definition, import it as type
+import type {Types, Document} from 'mongoose'
+
+@Schema()
+export class User {
+  _id: Types.ObjectId;
+}
+export type UserDocument = User & Document;
+```
+#### Solution 2
+Build in CommonJS mode with Vite or Nest CLI
+
+
+#### CommonJS
+```bash
+# build
+$ pnpm build:cjs
+
+# start the app
+$ pnpm start:prod:cjs
+# or
+$ node dist/main
+```
+
+## Nest CLI
 
 ```bash
 # development
-$ npm run start
+$ pnpm start
 
 # watch mode
-$ npm run start:dev
+$ pnpm start:dev
 
-# production mode
-$ npm run start:prod
+# build
+$ pnpm build:nest
+
+# production
+$ pnpm start:prod:cjs
+# or
+$ node dist/main
 ```
 
-## Test
+## Test - Vitest
 
 ```bash
 # unit tests
-$ npm run test
+$ pnpm test
 
 # e2e tests
-$ npm run test:e2e
+$ npm test:e2e
 
 # test coverage
-$ npm run test:cov
+$ npm test:cov
 ```
 
-## Support
+<strong>Vitest Alternatives:</strong>
+
+* Jest with ts-jest setup. Default for Nest
+* Jest setup with [@swc/jest](https://swc.rs/docs/usage/jest)
+  
+
+## Nest JS Info
+
+### Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-## Stay in touch
+### Stay in touch
 
 - Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
 - Website - [https://nestjs.com](https://nestjs.com/)
 - Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).

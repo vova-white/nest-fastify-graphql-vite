@@ -1,6 +1,6 @@
-import type { Plugin, ViteDevServer } from 'vite';
-import { exit } from 'process';
 import type { INestApplication } from '@nestjs/common';
+import { exit } from 'process';
+import type { Plugin, ViteDevServer } from 'vite';
 
 interface Options {
   /**

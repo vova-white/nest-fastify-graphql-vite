@@ -34,7 +34,7 @@ async function bootstrap() {
 async function start(app: INestApplication) {
   await app.listen(+appConfig.APP_PORT, appConfig.APP_HOST);
   const url = await app.getUrl();
-  Logger.log(`OpenApi on: ${url}/api`, 'Bootstrap');
+  Logger.log(`OpenAPI on: ${url}/api`, 'Bootstrap');
   Logger.log(`GraphQL playground on: ${url}/graphql`, 'Bootstrap');
 }
 
