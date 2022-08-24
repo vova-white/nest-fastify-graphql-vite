@@ -20,7 +20,7 @@ I haven't tested it, but I think that if make small changes it will work with @n
 ## Installation
 
 1. Clone the repo
-2. Replace MONGO_CONNECTION_URI in .env.example to real connection uri
+2. Replace MONGO_CONNECTION_URI in .env.example with real connection uri
 3. Rename or copy .env.example to .env
 
 ```bash
