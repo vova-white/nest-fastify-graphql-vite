@@ -45,6 +45,7 @@ export default defineConfig(({ command }) => {
       // this error. You can also surround this "require" call with a try/catch block to handle this
       // failure at run-time instead of bundle-time.
       exclude: [
+        '@nestjs/platform-express',
         '@nestjs/microservices',
         '@nestjs/websockets',
         'cache-manager',
