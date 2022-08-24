@@ -76,7 +76,10 @@ function VitePluginNest(options: Options = {}): Plugin {
 
   return {
     name: 'vite-plugin-nestjs',
-    apply: 'serve',
+    apply(_, { command, mode }) {
+      // apply only on serve but not test mode
+      return command === 'serve' && mode !== 'test';
+    },
     config: () => ({
       server: {
         middlewareMode: true,

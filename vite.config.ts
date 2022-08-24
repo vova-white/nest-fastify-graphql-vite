@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import multiInput from 'rollup-plugin-multi-input';
 import swc from 'unplugin-swc';
 import { defineConfig } from 'vite';
@@ -21,6 +22,9 @@ export default defineConfig(({ command }) => {
         },
         plugins: [isBuild && multiInput()],
       },
+    },
+    test: {
+      include: ['**/*.{spec,test,e2e-spec}.ts'],
     },
     optimizeDeps: {
       // To prevent error:

@@ -1,9 +1,28 @@
 {
-  "moduleFileExtensions": ["js", "json", "ts"],
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
   "rootDir": ".",
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
   "transform": {
-    "^.+\\.(t|j)s$": "ts-jest"
+    "^.+\\.(t|j)s$": [
+      "@swc/jest",
+      {
+        "jsc": {
+          "target": "es2020",
+          "parser": {
+            "syntax": "typescript",
+            "decorators": true
+          },
+          "transform": {
+            "legacyDecorator": true,
+            "decoratorMetadata": true
+          }
+        }
+      }
+    ]
   }
 }
