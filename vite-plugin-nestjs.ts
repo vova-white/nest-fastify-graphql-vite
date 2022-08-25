@@ -1,6 +1,6 @@
 import type { INestApplication } from '@nestjs/common';
 import { exit } from 'process';
-import type { Plugin, ViteDevServer } from 'vite';
+import type { ModuleNode, Plugin, ViteDevServer } from 'vite';
 
 interface Options {
   /**
@@ -41,8 +41,8 @@ function VitePluginNest(options: Options = {}): Plugin {
     if (store.app) await store.app.close();
   };
 
-  const buildApp = async (server: ViteDevServer) => {
-    if (store.isLoading) return;
+  const buildApp = async (server: ViteDevServer, modules?: ModuleNode[]) => {
+    if (store.isLoading || (modules && !modules.length)) return;
 
     store.isLoading = true;
     try {
@@ -67,9 +67,9 @@ function VitePluginNest(options: Options = {}): Plugin {
       store.app = app;
       store.isLoading = false;
     } catch (error) {
-      store.isLoading = false;
       server.ssrFixStacktrace(error);
       server.config.logger.error(error);
+      store.isLoading = false;
     }
   };
 
@@ -91,8 +91,8 @@ function VitePluginNest(options: Options = {}): Plugin {
       server.watcher.prependListener('change', closeApp);
       server.watcher.prependListener('unlink', closeApp);
     },
-    handleHotUpdate: ({ server }) => {
-      void buildApp(server);
+    handleHotUpdate: ({ server, modules }) => {
+      void buildApp(server, modules);
     },
   };
 }

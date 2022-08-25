@@ -23,13 +23,6 @@ export default defineConfig(({ command }) => {
         plugins: [isBuild && multiInput()],
       },
     },
-    server: {
-      watch: {
-        // To prevent circular dev server reload.
-        // Add auto-generated files.
-        ignored: ['**/*/schema.gql'],
-      },
-    },
     test: {
       include: ['**/*.{spec,test,e2e-spec}.{js,mjs,cjs,ts}'],
     },
