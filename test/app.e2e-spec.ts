@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { describe, it, afterAll, beforeEach } from 'vitest';
+import { describe, it, beforeEach } from 'vitest';
 import { FastifyAdapter } from '@nestjs/platform-fastify';
 
 describe('AppController (e2e)', () => {
