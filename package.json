@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "dev": "node ./vite.server.mjs",
+    "dev": "vite",
     "build": "run-p type-check && vite build",
     "build:cjs": "run-p type-check && vite build -- --cjs",
     "type-check": "tsc --noEmit -p tsconfig.build.json --composite false",
@@ -75,6 +75,7 @@
     "tsconfig-paths": "4.1.0",
     "typescript": "^4.7.4",
     "unplugin-swc": "^1.3.2",
+    "vavite": "^1.4.1",
     "vite": "^3.0.9",
     "vite-plugin-restart": "^0.2.0",
     "vitest": "^0.22.1"
