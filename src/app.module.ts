@@ -12,6 +12,8 @@ import { DirectiveLocation, GraphQLDirective } from 'graphql';
 
 @Module({
   imports: [
+    UserModule,
+    RecipesModule,
     MongooseModule.forRoot(appConfig.MONGO_URL),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -27,8 +29,6 @@ import { DirectiveLocation, GraphQLDirective } from 'graphql';
         ],
       },
     }),
-    UserModule,
-    RecipesModule,
   ],
   controllers: [AppController],
   providers: [],

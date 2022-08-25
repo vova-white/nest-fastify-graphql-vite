@@ -134,6 +134,10 @@ $ npm test:e2e
 # test coverage
 $ npm test:cov
 ```
+<span style="color: orange">ISSUE:</span> [Graphql is loaded twice, once as CJS and second time from the ESM](https://github.com/vitejs/vite/issues/7879)
+
+Posible solution:
+[to patch the graphql package to delete the index.mjs file](https://github.com/vitejs/vite/issues/7879#issuecomment-1156166452)
 
 <strong>Vitest Alternatives:</strong>
 
